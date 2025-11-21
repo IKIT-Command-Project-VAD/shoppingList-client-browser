@@ -7,7 +7,7 @@ function Page3() {
     <>
       <meta name="title" content="Page 3" />
       <FullSizeCentered>
-        <Typography variant="h3">Page 3</Typography>
+        <Typography variant="h3">Protected content</Typography>
       </FullSizeCentered>
     </>
   );

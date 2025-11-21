@@ -8,6 +8,7 @@ type Routes = Array<PathRouteProps & PathRouteCustomProps>;
 type PathRouteCustomProps = {
   title?: string;
   component: FC;
+  protected?: boolean;
   icon?: FC<SvgIconProps>;
   routes?: Routes;
 };

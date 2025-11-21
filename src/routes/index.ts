@@ -32,6 +32,7 @@ const routes: Routes = [
     path: '/page-3',
     title: 'Page 3',
     icon: TerrainIcon,
+    protected: true,
   },
   {
     component: asyncComponentLoader(() => import('@/pages/Page4')),

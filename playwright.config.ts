@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import { config as dotenvConfig } from 'dotenv';
+import path from 'node:path';
+
+dotenvConfig({
+  path: path.resolve(process.cwd(), 'env', '.env.development'),
+});
 
 const PORT = process.env.CI ? 4173 : 5173;
 const BASE_URL = `http://localhost:${PORT}`;

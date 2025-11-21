@@ -2,6 +2,7 @@ import { Route } from 'react-router';
 
 import type { Theme } from '@mui/material';
 
+import { PrivateRoute } from '@/components/PrivateRoute';
 import { objectInsertIf } from '@/utils/insertIf';
 
 import { Routes } from '../types';
@@ -13,18 +14,23 @@ function getPageHeight(theme: Theme) {
 }
 
 function renderRoutes(routes: Routes) {
-  return routes.map(({ path, component: Component, routes: nestedRoutes }) => {
-    return (
-      <Route
-        key={path}
-        path={path}
-        element={<Component />}
-        {...objectInsertIf(nestedRoutes, {
-          children: nestedRoutes && renderRoutes(nestedRoutes as Routes),
-        })}
-      />
-    );
-  });
+  return routes.map(
+    ({ path, component: Component, routes: nestedRoutes, protected: isProtected }) => {
+      const element = <Component />;
+      const wrappedElement = isProtected ? <PrivateRoute>{element}</PrivateRoute> : element;
+
+      return (
+        <Route
+          key={path}
+          path={path}
+          element={wrappedElement}
+          {...objectInsertIf(nestedRoutes, {
+            children: nestedRoutes && renderRoutes(nestedRoutes as Routes),
+          })}
+        />
+      );
+    },
+  );
 }
 
 export { getPageHeight, renderRoutes };
