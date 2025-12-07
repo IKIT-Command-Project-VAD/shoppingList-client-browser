@@ -2,7 +2,7 @@ import { Route } from 'react-router';
 
 import type { Theme } from '@mui/material';
 
-import { PrivateRoute } from '@/components/PrivateRoute';
+import { PrivateRoute } from '@/routes/PrivateRoute/PrivateRoute';
 import { objectInsertIf } from '@/utils/insertIf';
 
 import { Routes } from '../types';

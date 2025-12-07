@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button, Typography } from '@mui/material';
 
-import Loading from '@/components/Loading';
+import { FullSizeCentered } from '@/components/styled';
 
 type UserInfo = {
   name: string;
@@ -46,20 +46,21 @@ function LoginPage() {
   };
 
   if (loading) {
-    return <Loading />;
+    return <Typography>Loading...</Typography>;
   }
 
   const isAuth = !!user;
 
   return (
     <>
-      <Typography variant="h3">Auth</Typography>
+      <meta name="title" content="Account" />
       {!isAuth && <Button onClick={handleLogin}>Sign In</Button>}
       {isAuth && (
-        <>
+        <FullSizeCentered>
+          <Typography variant="h3">Account</Typography>
           <Typography variant="body1">Hello, {user.name}</Typography>
           <Button onClick={handleLogout}>Sign Out</Button>
-        </>
+        </FullSizeCentered>
       )}
     </>
   );
