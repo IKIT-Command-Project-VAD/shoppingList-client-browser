@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Typography } from '@mui/material';
 
@@ -11,6 +12,7 @@ type UserInfo = {
 };
 
 function LoginPage() {
+  const { t } = useTranslation();
   const [user, setUser] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -54,13 +56,13 @@ function LoginPage() {
 
   return (
     <>
-      <meta name="title" content="Account" />
-      {!isAuth && <Button onClick={handleLogin}>Войти</Button>}
+      <meta name="title" content={t('accountPage.title')} />
+      {!isAuth && <Button onClick={handleLogin}>{t('accountPage.signIn')}</Button>}
       {isAuth && (
         <FullSizeCentered>
-          <Typography variant="h3">Аккаунт</Typography>
-          <Typography variant="body1">Привет, {user.name}</Typography>
-          <Button onClick={handleLogout}>Выйти</Button>
+          <Typography variant="h3">{t('accountPage.title')}</Typography>
+          <Typography variant="body1">{t('accountPage.hello', { name: user.name })}</Typography>
+          <Button onClick={handleLogout}>{t('accountPage.signOut')}</Button>
         </FullSizeCentered>
       )}
     </>

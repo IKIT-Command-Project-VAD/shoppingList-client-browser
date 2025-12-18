@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box, Button, Typography } from '@mui/material';
 
@@ -7,6 +8,7 @@ interface UnauthorizedProps {
 }
 
 const Unauthorized: FC<UnauthorizedProps> = ({ message }) => {
+  const { t } = useTranslation();
   const handleLogin = () => {
     // через gateway → попадём в Keycloak
     window.location.href = '/bff/login';
@@ -25,13 +27,13 @@ const Unauthorized: FC<UnauthorizedProps> = ({ message }) => {
       }}
     >
       <Typography variant="h4" gutterBottom>
-        Не авторизован
+        {t('unauthorized.notAuthorized')}
       </Typography>
       <Typography variant="body1" color="text.secondary">
-        {message ?? 'Вы должны быть авторизованы, чтобы видеть содержимое страницы.'}
+        {message ?? t('unauthorized.message')}
       </Typography>
       <Button variant="contained" onClick={handleLogin}>
-        Войти
+        {t('unauthorized.signIn')}
       </Button>
     </Box>
   );

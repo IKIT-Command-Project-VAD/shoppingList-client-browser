@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 import DefaultIcon from '@mui/icons-material/Deblur';
@@ -15,6 +16,7 @@ import routes from '@/routes';
 import { useSidebar } from './hooks';
 
 function Sidebar() {
+  const { t } = useTranslation();
   const { isOpen, open, close } = useSidebar();
 
   return (
@@ -34,7 +36,7 @@ function Sidebar() {
             <ListItem sx={{ p: 0 }} key={path} onClick={close}>
               <ListItemButton component={Link} to={path as string}>
                 <ListItemIcon>{Icon ? <Icon /> : <DefaultIcon />}</ListItemIcon>
-                <ListItemText>{title}</ListItemText>
+                <ListItemText>{title ? t(title as string) : ''}</ListItemText>
               </ListItemButton>
             </ListItem>
           ))}

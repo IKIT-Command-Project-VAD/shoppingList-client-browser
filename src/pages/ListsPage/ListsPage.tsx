@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -43,6 +44,7 @@ type ListFormState = {
 };
 
 function ListsPage() {
+  const { t } = useTranslation();
   const [lists, setLists] = useState<ShoppingListRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -166,9 +168,9 @@ function ListsPage() {
   return (
     <Container sx={{ py: 3 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} gap={1}>
-        <Typography variant="h5">Списки</Typography>
+        <Typography variant="h5">{t('listsPage.title')}</Typography>
         <Stack direction="row" gap={1} alignItems="center">
-          <Tooltip title="Обновить">
+          <Tooltip title={t('listsPage.refresh')}>
             <span>
               <IconButton onClick={loadLists} disabled={loading}>
                 <RefreshIcon />
@@ -182,7 +184,7 @@ function ListsPage() {
               onClick={openCreate}
               disabled={loading}
             >
-              Создать список
+              {t('listsPage.createList')}
             </Button>
           )}
         </Stack>
@@ -201,11 +203,11 @@ function ListsPage() {
                       {list.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Обновлён: {new Date(list.updatedAt).toLocaleString()}
+                      {t('listsPage.updated')}: {new Date(list.updatedAt).toLocaleString()}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <Tooltip title="Редактировать">
+                <Tooltip title={t('listsPage.edit')}>
                   <IconButton
                     size="small"
                     color="primary"
@@ -226,7 +228,7 @@ function ListsPage() {
 
       {lists.length === 0 && !loading && (
         <Typography color="text.secondary" mt={2}>
-          Списков пока нет. Создайте первый.
+          {t('listsPage.noLists')}
         </Typography>
       )}
 
@@ -242,12 +244,12 @@ function ListsPage() {
       )}
 
       <Dialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Создать список</DialogTitle>
+        <DialogTitle>{t('listsPage.createDialogTitle')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Название"
+            label={t('listsPage.name')}
             fullWidth
             required
             value={createForm.name}
@@ -255,20 +257,20 @@ function ListsPage() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsCreateOpen(false)}>Отмена</Button>
+          <Button onClick={() => setIsCreateOpen(false)}>{t('listsPage.cancel')}</Button>
           <Button variant="contained" onClick={handleCreate} disabled={loading}>
-            Сохранить
+            {t('listsPage.save')}
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={isEditOpen} onClose={() => setIsEditOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Редактировать список</DialogTitle>
+        <DialogTitle>{t('listsPage.editDialogTitle')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Название"
+            label={t('listsPage.name')}
             fullWidth
             required
             value={editForm.name}
@@ -281,39 +283,39 @@ function ListsPage() {
             startIcon={<DeleteIcon />}
             onClick={() => setIsDeleteConfirmOpen(true)}
           >
-            Удалить
+            {t('listsPage.delete')}
           </Button>
           <Box>
             <Button onClick={() => setIsEditOpen(false)} sx={{ mr: 1 }}>
-              Назад
+              {t('listsPage.back')}
             </Button>
             <Button variant="contained" onClick={handleEdit} disabled={loading}>
-              Сохранить
+              {t('listsPage.save')}
             </Button>
           </Box>
         </DialogActions>
       </Dialog>
 
       <Dialog open={isDeleteConfirmOpen} onClose={() => setIsDeleteConfirmOpen(false)}>
-        <DialogTitle>Удалить список?</DialogTitle>
+        <DialogTitle>{t('listsPage.confirmDelete')}</DialogTitle>
         <DialogContent>
-          <Typography>Это действие удалит список и его элементы. Продолжить?</Typography>
+          <Typography>{t('listsPage.confirmDeleteText')}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsDeleteConfirmOpen(false)}>Отмена</Button>
+          <Button onClick={() => setIsDeleteConfirmOpen(false)}>{t('listsPage.cancel')}</Button>
           <Button color="error" variant="contained" onClick={handleDelete} disabled={loading}>
-            Удалить
+            {t('listsPage.delete')}
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={!!error} onClose={() => setError(null)}>
-        <DialogTitle>Ошибка</DialogTitle>
+        <DialogTitle>{t('listsPage.errorDialogTitle')}</DialogTitle>
         <DialogContent>
           <Typography color="error">{error}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setError(null)}>Закрыть</Button>
+          <Button onClick={() => setError(null)}>{t('listsPage.close')}</Button>
         </DialogActions>
       </Dialog>
     </Container>

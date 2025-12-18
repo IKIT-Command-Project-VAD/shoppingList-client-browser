@@ -10,20 +10,20 @@ const routes: Routes = [
   {
     component: asyncComponentLoader(() => import('@/pages/Welcome')),
     path: '/',
-    title: 'Добро пожаловать',
+    title: 'welcome',
     icon: HomeIcon,
   },
   {
     component: asyncComponentLoader(() => import('@/pages/AccountPage')),
     path: '/account',
-    title: 'Аккаунт',
+    title: 'account',
     icon: GitHubIcon,
     protected: true,
   },
   {
     component: asyncComponentLoader(() => import('@/pages/ListsPage')),
     path: '/lists',
-    title: 'Списки',
+    title: 'lists',
     icon: ListAltIcon,
     protected: true,
   },

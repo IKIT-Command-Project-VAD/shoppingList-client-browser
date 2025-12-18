@@ -1,4 +1,7 @@
+import '@/i18n';
 import welcome from '@/utils/welcome';
+
+// Initialize i18next
 
 import './index.css';
 

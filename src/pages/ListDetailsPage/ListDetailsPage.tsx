@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -78,6 +79,7 @@ type ListFormState = {
 };
 
 function ListDetailsPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -407,17 +409,17 @@ function ListDetailsPage() {
     <Container sx={{ py: 3 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} gap={1}>
         <Stack direction="row" alignItems="center" gap={1}>
-          <Typography variant="h5">{list?.name ?? 'Список'}</Typography>
+          <Typography variant="h5">{list?.name ?? t('listDetailsPage.title')}</Typography>
         </Stack>
         <Stack direction="row" gap={1} alignItems="center">
-          <Tooltip title="Обновить">
+          <Tooltip title={t('listDetailsPage.refresh')}>
             <span>
               <IconButton onClick={loadList} disabled={loading}>
                 <RefreshIcon />
               </IconButton>
             </span>
           </Tooltip>
-          <Tooltip title="Редактировать список">
+          <Tooltip title={t('listDetailsPage.editList')}>
             <span>
               <IconButton onClick={openListEdit} disabled={loading || !list}>
                 <EditIcon />
@@ -431,7 +433,7 @@ function ListDetailsPage() {
               onClick={openAddDialog}
               disabled={loading}
             >
-              Добавить элемент
+              {t('listDetailsPage.addItem')}
             </Button>
           )}
         </Stack>
@@ -458,7 +460,7 @@ function ListDetailsPage() {
               primary={<Typography variant="subtitle1">{item.name}</Typography>}
               secondary={
                 <Typography variant="body2" color="text.secondary">
-                  Обновлён: {new Date(item.updatedAt).toLocaleString()}
+                  {t('listDetailsPage.updated')}: {new Date(item.updatedAt).toLocaleString()}
                 </Typography>
               }
             />
@@ -466,7 +468,7 @@ function ListDetailsPage() {
         ))}
         {items.length === 0 && !loading && (
           <Typography color="text.secondary" mt={2}>
-            Нет элементов. Добавьте первый.
+            {t('listDetailsPage.noItems')}
           </Typography>
         )}
       </List>
@@ -484,26 +486,26 @@ function ListDetailsPage() {
 
       {/* Диалог создания элемента */}
       <Dialog open={isAddOpen} onClose={() => setIsAddOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Новый элемент</DialogTitle>
+        <DialogTitle>{t('listDetailsPage.newItem')}</DialogTitle>
         <DialogContent>
           <Stack spacing={2} mt={1}>
             <TextField
               autoFocus
-              label="Название"
+              label={t('listDetailsPage.name')}
               required
               value={itemForm.name}
               onChange={(e) => setItemForm((s) => ({ ...s, name: e.target.value }))}
             />
             <Stack direction="row" spacing={2}>
               <TextField
-                label="Количество"
+                label={t('listDetailsPage.quantity')}
                 type="number"
                 value={itemForm.quantity}
                 onChange={(e) => setItemForm((s) => ({ ...s, quantity: e.target.value }))}
                 fullWidth
               />
               <TextField
-                label="Ед. изм. (шт/гр/кг)"
+                label={t('listDetailsPage.units')}
                 value={itemForm.unit}
                 onChange={(e) => setItemForm((s) => ({ ...s, unit: e.target.value }))}
                 fullWidth
@@ -511,14 +513,14 @@ function ListDetailsPage() {
             </Stack>
             <Stack direction="row" spacing={2}>
               <TextField
-                label="Цена за единицу"
+                label={t('listDetailsPage.pricePerUnit')}
                 type="number"
                 value={itemForm.price}
                 onChange={(e) => setItemForm((s) => ({ ...s, price: e.target.value }))}
                 fullWidth
               />
               <TextField
-                label="Валюта"
+                label={t('listDetailsPage.currency')}
                 value={itemForm.currency}
                 onChange={(e) => setItemForm((s) => ({ ...s, currency: e.target.value }))}
                 fullWidth
@@ -526,16 +528,16 @@ function ListDetailsPage() {
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <FormControl fullWidth>
-                <InputLabel id="create-category-label">Категория</InputLabel>
+                <InputLabel id="create-category-label">{t('listDetailsPage.category')}</InputLabel>
                 <Select
                   labelId="create-category-label"
-                  label="Категория"
+                  label={t('listDetailsPage.category')}
                   value={itemForm.categoryId}
                   onChange={(e) =>
                     setItemForm((s) => ({ ...s, categoryId: (e.target.value as string) ?? '' }))
                   }
                 >
-                  <MenuItem value="">Без категории</MenuItem>
+                  <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
                   {categories.map((c) => (
                     <MenuItem key={c.id} value={c.id}>
                       {c.name}
@@ -543,7 +545,7 @@ function ListDetailsPage() {
                   ))}
                 </Select>
               </FormControl>
-              <Tooltip title="Обновить категории">
+              <Tooltip title={t('listDetailsPage.refreshCategories')}>
                 <span>
                   <IconButton onClick={loadCategories} disabled={loadingCategories}>
                     <RefreshIcon />
@@ -558,40 +560,40 @@ function ListDetailsPage() {
                   onChange={(e) => setItemForm((s) => ({ ...s, isChecked: e.target.checked }))}
                 />
               }
-              label="Отмечено"
+              label={t('listDetailsPage.checked')}
             />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsAddOpen(false)}>Отмена</Button>
+          <Button onClick={() => setIsAddOpen(false)}>{t('listDetailsPage.cancel')}</Button>
           <Button variant="contained" onClick={submitCreateItem} disabled={loading}>
-            Сохранить
+            {t('listDetailsPage.save')}
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Диалог редактирования элемента */}
       <Dialog open={isEditOpen} onClose={() => setIsEditOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Редактировать элемент</DialogTitle>
+        <DialogTitle>{t('listDetailsPage.editDialogTitle')}</DialogTitle>
         <DialogContent>
           <Stack spacing={2} mt={1}>
             <TextField
               autoFocus
-              label="Название"
+              label={t('listDetailsPage.name')}
               required
               value={itemForm.name}
               onChange={(e) => setItemForm((s) => ({ ...s, name: e.target.value }))}
             />
             <Stack direction="row" spacing={2}>
               <TextField
-                label="Количество"
+                label={t('listDetailsPage.quantity')}
                 type="number"
                 value={itemForm.quantity}
                 onChange={(e) => setItemForm((s) => ({ ...s, quantity: e.target.value }))}
                 fullWidth
               />
               <TextField
-                label="Ед. изм. (шт/гр/кг)"
+                label={t('listDetailsPage.units')}
                 value={itemForm.unit}
                 onChange={(e) => setItemForm((s) => ({ ...s, unit: e.target.value }))}
                 fullWidth
@@ -599,14 +601,14 @@ function ListDetailsPage() {
             </Stack>
             <Stack direction="row" spacing={2}>
               <TextField
-                label="Цена за единицу"
+                label={t('listDetailsPage.pricePerUnit')}
                 type="number"
                 value={itemForm.price}
                 onChange={(e) => setItemForm((s) => ({ ...s, price: e.target.value }))}
                 fullWidth
               />
               <TextField
-                label="Валюта"
+                label={t('listDetailsPage.currency')}
                 value={itemForm.currency}
                 onChange={(e) => setItemForm((s) => ({ ...s, currency: e.target.value }))}
                 fullWidth
@@ -614,16 +616,16 @@ function ListDetailsPage() {
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <FormControl fullWidth>
-                <InputLabel id="edit-category-label">Категория</InputLabel>
+                <InputLabel id="edit-category-label">{t('listDetailsPage.category')}</InputLabel>
                 <Select
                   labelId="edit-category-label"
-                  label="Категория"
+                  label={t('listDetailsPage.category')}
                   value={itemForm.categoryId}
                   onChange={(e) =>
                     setItemForm((s) => ({ ...s, categoryId: (e.target.value as string) ?? '' }))
                   }
                 >
-                  <MenuItem value="">Без категории</MenuItem>
+                  <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
                   {categories.map((c) => (
                     <MenuItem key={c.id} value={c.id}>
                       {c.name}
@@ -631,7 +633,7 @@ function ListDetailsPage() {
                   ))}
                 </Select>
               </FormControl>
-              <Tooltip title="Обновить категории">
+              <Tooltip title={t('listDetailsPage.refreshCategories')}>
                 <span>
                   <IconButton onClick={loadCategories} disabled={loadingCategories}>
                     <RefreshIcon />
@@ -646,7 +648,7 @@ function ListDetailsPage() {
                   onChange={(e) => setItemForm((s) => ({ ...s, isChecked: e.target.checked }))}
                 />
               }
-              label="Отмечено"
+              label={t('listDetailsPage.checked')}
             />
           </Stack>
         </DialogContent>
@@ -656,14 +658,14 @@ function ListDetailsPage() {
             startIcon={<DeleteIcon />}
             onClick={() => setIsItemDeleteOpen(true)}
           >
-            Удалить
+            {t('listDetailsPage.delete')}
           </Button>
           <Box>
             <Button onClick={() => setIsEditOpen(false)} sx={{ mr: 1 }}>
-              Назад
+              {t('listDetailsPage.back')}
             </Button>
             <Button variant="contained" onClick={submitUpdateItem} disabled={loading}>
-              Сохранить
+              {t('listDetailsPage.save')}
             </Button>
           </Box>
         </DialogActions>
@@ -671,14 +673,14 @@ function ListDetailsPage() {
 
       {/* Подтверждение удаления элемента */}
       <Dialog open={isItemDeleteOpen} onClose={() => setIsItemDeleteOpen(false)}>
-        <DialogTitle>Удалить элемент?</DialogTitle>
+        <DialogTitle>{t('listDetailsPage.confirmDeleteItem')}</DialogTitle>
         <DialogContent>
-          <Typography>Действие нельзя отменить. Продолжить?</Typography>
+          <Typography>{t('listDetailsPage.confirmDeleteItemText')}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsItemDeleteOpen(false)}>Отмена</Button>
+          <Button onClick={() => setIsItemDeleteOpen(false)}>{t('listDetailsPage.cancel')}</Button>
           <Button color="error" variant="contained" onClick={submitDeleteItem} disabled={loading}>
-            Удалить
+            {t('listDetailsPage.delete')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -690,12 +692,12 @@ function ListDetailsPage() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>Редактировать список</DialogTitle>
+        <DialogTitle>{t('listsPage.editDialogTitle')}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label="Название"
+            label={t('listsPage.name')}
             fullWidth
             required
             value={listForm.name}
@@ -708,14 +710,14 @@ function ListDetailsPage() {
             startIcon={<DeleteIcon />}
             onClick={() => setIsListDeleteOpen(true)}
           >
-            Удалить
+            {t('listsPage.delete')}
           </Button>
           <Box>
             <Button onClick={() => setIsListEditOpen(false)} sx={{ mr: 1 }}>
-              Назад
+              {t('listsPage.back')}
             </Button>
             <Button variant="contained" onClick={submitListUpdate} disabled={loading}>
-              Сохранить
+              {t('listsPage.save')}
             </Button>
           </Box>
         </DialogActions>
@@ -723,14 +725,14 @@ function ListDetailsPage() {
 
       {/* Подтверждение удаления списка */}
       <Dialog open={isListDeleteOpen} onClose={() => setIsListDeleteOpen(false)}>
-        <DialogTitle>Удалить список?</DialogTitle>
+        <DialogTitle>{t('listsPage.confirmDelete')}</DialogTitle>
         <DialogContent>
-          <Typography>Список и все элементы будут удалены. Продолжить?</Typography>
+          <Typography>{t('listDetailsPage.confirmDeleteListText')}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsListDeleteOpen(false)}>Отмена</Button>
+          <Button onClick={() => setIsListDeleteOpen(false)}>{t('listsPage.cancel')}</Button>
           <Button color="error" variant="contained" onClick={submitListDelete} disabled={loading}>
-            Удалить
+            {t('listsPage.delete')}
           </Button>
         </DialogActions>
       </Dialog>

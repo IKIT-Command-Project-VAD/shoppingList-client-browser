@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ThemeIcon from '@mui/icons-material/InvertColors';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -5,7 +7,8 @@ import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Tooltip } from '@m
 
 import { useNotifications } from '@toolpad/core/useNotifications';
 
-import { repository, title } from '@/config';
+import LanguageSwitch from '@/components/LanguageSwitch';
+import { repository } from '@/config';
 import { useHotKeysDialog } from '@/sections/HotKeys/hooks';
 import { useSidebar } from '@/sections/Sidebar/hooks';
 import { useThemeMode } from '@/theme';
@@ -14,6 +17,7 @@ import { HotKeysButton } from './styled';
 import { getRandomJoke } from './utils';
 
 function Header() {
+  const { t } = useTranslation();
   const { themeMode, toggle: toggleThemeMode } = useThemeMode();
   const { open: openSidebar } = useSidebar();
   const { open: openHotKeysDialog } = useHotKeysDialog();
@@ -46,11 +50,13 @@ function Header() {
               <MenuIcon />
             </IconButton>
             <Button onClick={showNotification} color="info">
-              {title}
+              {t('welcome')}
             </Button>
           </Stack>
           <Stack direction="row" alignItems="center">
-            <Tooltip title="Hot keys" arrow>
+            <LanguageSwitch />
+            <Divider orientation="vertical" flexItem />
+            <Tooltip title={t('header.hotKeys')} arrow>
               <HotKeysButton
                 size="small"
                 variant="outlined"
@@ -61,13 +67,13 @@ function Header() {
               </HotKeysButton>
             </Tooltip>
             <Divider orientation="vertical" flexItem />
-            <Tooltip title="It's open source" arrow>
+            <Tooltip title={t('header.sourceCode')} arrow>
               <IconButton color="info" size="large" component="a" href={repository} target="_blank">
                 <GitHubIcon />
               </IconButton>
             </Tooltip>
             <Divider orientation="vertical" flexItem />
-            <Tooltip title="Switch theme" arrow>
+            <Tooltip title={t('header.switchTheme')} arrow>
               <IconButton
                 color="info"
                 edge="end"

@@ -1,0 +1,77 @@
+{
+  "welcome": "Welcome",
+  "account": "Account",
+  "lists": "Lists",
+  "home": "Home",
+  "list": "List",
+  "listsPage": {
+    "title": "Lists",
+    "createList": "Create List",
+    "editList": "Edit List",
+    "deleteList": "Delete List",
+    "refresh": "Refresh",
+    "name": "Name",
+    "updated": "Updated",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "back": "Back",
+    "noLists": "No lists yet. Create the first one.",
+    "confirmDelete": "Delete list?",
+    "confirmDeleteText": "This action will delete the list and its items. Continue?",
+    "createDialogTitle": "Create List",
+    "editDialogTitle": "Edit List",
+    "errorDialogTitle": "Error",
+    "close": "Close",
+    "unknownError": "Unknown error",
+    "unknownListError": "Unknown error loading lists"
+  },
+  "listDetailsPage": {
+    "title": "List",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "deleteItem": "Delete Item",
+    "newItem": "New Item",
+    "editDialogTitle": "Edit Item",
+    "createDialogTitle": "New Item",
+    "confirmDeleteItem": "Delete item?",
+    "confirmDeleteItemText": "Action cannot be undone. Continue?",
+    "confirmDeleteList": "Delete list?",
+    "confirmDeleteListText": "The list and all items will be deleted. Continue?",
+    "noItems": "No items yet. Add the first one.",
+    "quantity": "Quantity",
+    "units": "Units (pcs/gr/kg)",
+    "pricePerUnit": "Price per unit",
+    "currency": "Currency",
+    "category": "Category",
+    "withoutCategory": "Without category",
+    "refreshCategories": "Refresh categories",
+    "checked": "Checked",
+    "all": "All",
+    "done": "Done",
+    "unknownError": "Unknown error",
+    "refresh": "Refresh",
+    "editList": "Edit list",
+    "unknownCategoriesError": "Unknown error loading categories"
+  },
+  "accountPage": {
+    "title": "Account",
+    "hello": "Hello, {{name}}",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "unauthorized": {
+    "notAuthorized": "Not authorized",
+    "message": "You must be authorized to see the page content.",
+    "signIn": "Sign in"
+  },
+  "header": {
+    "hotKeys": "Hot keys",
+    "sourceCode": "It's open source",
+    "switchTheme": "Switch theme"
+  },
+  "common": {
+    "error": "Error"
+  }
+}
