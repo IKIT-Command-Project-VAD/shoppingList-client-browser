@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button, Typography } from '@mui/material';
 
+import Loading from '@/components/Loading';
 import { FullSizeCentered } from '@/components/styled';
 
 type UserInfo = {
@@ -46,7 +47,7 @@ function LoginPage() {
   };
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return <Loading />;
   }
 
   const isAuth = !!user;
@@ -54,12 +55,12 @@ function LoginPage() {
   return (
     <>
       <meta name="title" content="Account" />
-      {!isAuth && <Button onClick={handleLogin}>Sign In</Button>}
+      {!isAuth && <Button onClick={handleLogin}>Войти</Button>}
       {isAuth && (
         <FullSizeCentered>
-          <Typography variant="h3">Account</Typography>
-          <Typography variant="body1">Hello, {user.name}</Typography>
-          <Button onClick={handleLogout}>Sign Out</Button>
+          <Typography variant="h3">Аккаунт</Typography>
+          <Typography variant="body1">Привет, {user.name}</Typography>
+          <Button onClick={handleLogout}>Выйти</Button>
         </FullSizeCentered>
       )}
     </>

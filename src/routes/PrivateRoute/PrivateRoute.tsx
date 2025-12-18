@@ -1,7 +1,8 @@
 import { ReactNode, useEffect, useState } from 'react';
 
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 
+import Loading from '@/components/Loading';
 import Unauthorized from '@/components/Unauthorized';
 
 interface PrivateRouteProps {
@@ -60,7 +61,7 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
           justifyContent: 'center',
         }}
       >
-        <CircularProgress />
+        <Loading />
       </Box>
     );
   }
@@ -74,5 +75,5 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
   }
 
   // status === 'error'
-  return <Unauthorized message="Authorization check failed. Try signing in again." />;
+  return <Unauthorized message="Вы не авторизованы. Войдите в аккаунт" />;
 }
