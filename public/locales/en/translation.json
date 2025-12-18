@@ -71,6 +71,21 @@
     "sourceCode": "It's open source",
     "switchTheme": "Switch theme"
   },
+  "hotKeys": {
+    "title": "Hot Keys",
+    "toggleTheme": "Toggle Theme",
+    "toggleSidebar": "Toggle Sidebar",
+    "toggleDialog": "Toggle Hot Keys' Dialog"
+  },
+  "language": {
+    "english": "English",
+    "russian": "Русский",
+    "en": "EN",
+    "ru": "RU"
+  },
+  "welcomePage": {
+    "title": "Welcome"
+  },
   "common": {
     "error": "Error"
   }

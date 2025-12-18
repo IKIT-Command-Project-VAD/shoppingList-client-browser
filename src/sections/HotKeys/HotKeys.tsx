@@ -1,4 +1,5 @@
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
@@ -11,6 +12,7 @@ import { useHotKeysDialog } from './hooks';
 function HotKeys() {
   const { toggle: toggleTheme } = useThemeMode();
   const { toggle: toggleSidebar } = useSidebar();
+  const { t } = useTranslation();
   const { isOpen, close, toggle: toggleHotKeysDialog } = useHotKeysDialog();
 
   // I would love to define all hotkeys in the config and loop it here and avoid this repetitive code.
@@ -23,22 +25,22 @@ function HotKeys() {
 
   return (
     <Dialog fullWidth maxWidth="xs" onClose={close} open={isOpen} data-pw="hotkeys-dialog">
-      <DialogTitle>Hot Keys</DialogTitle>
+      <DialogTitle>{t('hotKeys.title')}</DialogTitle>
       <DialogContent>
         <Stack direction="row" alignItems="center" height={50} justifyContent="space-between">
-          <Typography>Toggle Theme</Typography>
+          <Typography>{t('hotKeys.toggleTheme')}</Typography>
           <Button color="warning" variant="outlined" onClick={toggleTheme}>
             alt + t
           </Button>
         </Stack>
         <Stack direction="row" alignItems="center" height={50} justifyContent="space-between">
-          <Typography>Toggle Sidebar</Typography>
+          <Typography>{t('hotKeys.toggleSidebar')}</Typography>
           <Button color="warning" variant="outlined" onClick={toggleSidebar}>
             alt + s
           </Button>
         </Stack>
         <Stack direction="row" alignItems="center" height={50} justifyContent="space-between">
-          <Typography>Toggle Hot Keys&apos; Dialog</Typography>
+          <Typography>{t('hotKeys.toggleDialog')}</Typography>
           <Button color="warning" variant="outlined" onClick={toggleHotKeysDialog}>
             alt + k
           </Button>

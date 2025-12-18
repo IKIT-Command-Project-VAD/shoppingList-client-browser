@@ -71,6 +71,21 @@
     "sourceCode": "Это open source",
     "switchTheme": "Переключить тему"
   },
+  "hotKeys": {
+    "title": "Горячие клавиши",
+    "toggleTheme": "Переключить тему",
+    "toggleSidebar": "Переключить боковую панель",
+    "toggleDialog": "Переключить диалог горячих клавиш"
+  },
+  "language": {
+    "english": "English",
+    "russian": "Русский",
+    "en": "EN",
+    "ru": "RU"
+  },
+  "welcomePage": {
+    "title": "Добро пожаловать"
+  },
   "common": {
     "error": "Ошибка"
   }

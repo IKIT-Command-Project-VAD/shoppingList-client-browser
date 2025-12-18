@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Menu, MenuItem } from '@mui/material';
 
 function LanguageSwitch() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -34,7 +34,7 @@ function LanguageSwitch() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        {isEnglish ? 'EN' : 'RU'}
+        {isEnglish ? t('language.en') : t('language.ru')}
       </Button>
       <Menu
         id="language-menu"
@@ -47,10 +47,10 @@ function LanguageSwitch() {
         }}
       >
         <MenuItem selected={isEnglish} onClick={() => changeLanguage('en')}>
-          English
+          {t('language.english')}
         </MenuItem>
         <MenuItem selected={!isEnglish} onClick={() => changeLanguage('ru')}>
-          Русский
+          {t('language.russian')}
         </MenuItem>
       </Menu>
     </>

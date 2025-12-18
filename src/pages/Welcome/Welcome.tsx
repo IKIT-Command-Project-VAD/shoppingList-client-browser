@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { FullSizeCentered } from '@/components/styled';
 import useOrientation from '@/hooks/useOrientation';
 
@@ -12,13 +14,14 @@ import { Image } from './styled';
 
 function Welcome() {
   const isPortrait = useOrientation();
+  const { t } = useTranslation();
 
   const width = isPortrait ? '40%' : '30%';
   const height = isPortrait ? '30%' : '40%';
 
   return (
     <>
-      <meta name="title" content="Welcome" />
+      <meta name="title" content={t('welcomePage.title')} />
       <FullSizeCentered flexDirection={isPortrait ? 'column' : 'row'}>
         <Image alt="react-router" src={rrLogo} />
         <Image alt="vite" src={viteLogo} />
