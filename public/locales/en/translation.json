@@ -28,6 +28,9 @@
     "unknownListError": "Unknown error loading lists",
     "errors": {
       "loadingLists": "Error loading lists: {{status}}",
+      "creatingList": "Error creating list: {{status}}",
+      "savingList": "Error saving list: {{status}}",
+      "deletingList": "Error deleting list: {{status}}",
       "unknownLists": "Unknown error loading lists"
     }
   },

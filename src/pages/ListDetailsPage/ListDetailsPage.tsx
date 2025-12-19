@@ -36,6 +36,8 @@ import {
 import Loading from '@/components/Loading';
 import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
+import { ErrorDialog } from './ErrorDialog';
+
 type ListItemRecord = {
   id: string;
   listId: string;
@@ -748,6 +750,8 @@ function ListDetailsPage() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ErrorDialog error={error} onClose={() => setError(null)} title={t('common.error')} />
     </Container>
   );
 }

@@ -29,6 +29,7 @@ import {
 } from '@mui/material';
 
 import Loading from '@/components/Loading';
+import { ErrorDialog } from '@/pages/ListDetailsPage/ErrorDialog';
 import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
 type ShoppingListRecord = {
@@ -75,7 +76,8 @@ function ListsPage() {
         method: 'GET',
         credentials: 'include',
       });
-      if (!response.ok) throw new Error(`Ошибка загрузки списков: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listsPage.errors.loadingLists', { status: response.status }));
       const data = (await response.json()) as ListShoppingListsResponse;
       setLists(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -114,7 +116,8 @@ function ListsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name }),
       });
-      if (!response.ok) throw new Error(`Ошибка создания: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listsPage.errors.creatingList', { status: response.status }));
       setIsCreateOpen(false);
       await loadLists();
     } catch (e) {
@@ -137,7 +140,8 @@ function ListsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: selectedList.id, name }),
       });
-      if (!response.ok) throw new Error(`Ошибка сохранения: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listsPage.errors.savingList', { status: response.status }));
       setIsEditOpen(false);
       await loadLists();
     } catch (e) {
@@ -157,7 +161,7 @@ function ListsPage() {
         credentials: 'include',
       });
       if (!response.ok && response.status !== 204)
-        throw new Error(`Ошибка удаления: ${response.status}`);
+        throw new Error(t('listsPage.errors.deleting', { status: response.status }));
       setIsDeleteConfirmOpen(false);
       setIsEditOpen(false);
       setSelectedListId(null);
@@ -313,15 +317,11 @@ function ListsPage() {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={!!error} onClose={() => setError(null)}>
-        <DialogTitle>{t('listsPage.errorDialogTitle')}</DialogTitle>
-        <DialogContent>
-          <Typography color="error">{error}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setError(null)}>{t('listsPage.close')}</Button>
-        </DialogActions>
-      </Dialog>
+      <ErrorDialog
+        error={error}
+        onClose={() => setError(null)}
+        title={t('listsPage.errorDialogTitle')}
+      />
     </Container>
   );
 }
