@@ -34,6 +34,7 @@ import {
 } from '@mui/material';
 
 import Loading from '@/components/Loading';
+import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
 type ListItemRecord = {
   id: string;
@@ -120,7 +121,10 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${id}`, { method: 'GET', credentials: 'include' });
+      const response = await fetchWithLocale(`/api/lists/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
       if (!response.ok)
         throw new Error(t('listDetailsPage.errors.loadingList', { status: response.status }));
       const data = (await response.json()) as ShoppingListRecord;
@@ -162,7 +166,7 @@ function ListDetailsPage() {
       };
 
       try {
-        const response = await fetch(`/api/lists/${item.listId}/items/${item.id}`, {
+        const response = await fetchWithLocale(`/api/lists/${item.listId}/items/${item.id}`, {
           method: 'PUT',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -188,7 +192,10 @@ function ListDetailsPage() {
   const loadCategories = useCallback(async () => {
     setLoadingCategories(true);
     try {
-      const response = await fetch('/api/categories', { method: 'GET', credentials: 'include' });
+      const response = await fetchWithLocale('/api/categories', {
+        method: 'GET',
+        credentials: 'include',
+      });
       if (!response.ok)
         throw new Error(t('listDetailsPage.errors.loadingCategories', { status: response.status }));
       const data = (await response.json()) as CategoryRecord[];
@@ -257,7 +264,7 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${id}/items`, {
+      const response = await fetchWithLocale(`/api/lists/${id}/items`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -291,7 +298,7 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${id}/items/${selectedItem.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${id}/items/${selectedItem.id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -313,7 +320,7 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${id}/items/${selectedItem.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${id}/items/${selectedItem.id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -343,7 +350,7 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${list.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${list.id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -365,7 +372,7 @@ function ListDetailsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${list.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${list.id}`, {
         method: 'DELETE',
         credentials: 'include',
       });

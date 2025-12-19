@@ -29,6 +29,7 @@ import {
 } from '@mui/material';
 
 import Loading from '@/components/Loading';
+import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
 type ShoppingListRecord = {
   id: string;
@@ -70,9 +71,11 @@ function ListsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/lists', { method: 'GET', credentials: 'include' });
-      if (!response.ok)
-        throw new Error(t('listsPage.errors.loadingLists', { status: response.status }));
+      const response = await fetchWithLocale('/api/lists', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!response.ok) throw new Error(`Ошибка загрузки списков: ${response.status}`);
       const data = (await response.json()) as ListShoppingListsResponse;
       setLists(Array.isArray(data) ? data : []);
     } catch (e) {
@@ -105,7 +108,7 @@ function ListsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/lists', {
+      const response = await fetchWithLocale('/api/lists', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -128,7 +131,7 @@ function ListsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${selectedList.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${selectedList.id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -149,7 +152,7 @@ function ListsPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/lists/${selectedList.id}`, {
+      const response = await fetchWithLocale(`/api/lists/${selectedList.id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
