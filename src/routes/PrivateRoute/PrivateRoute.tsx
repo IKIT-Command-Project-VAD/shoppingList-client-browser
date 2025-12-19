@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box } from '@mui/material';
 
@@ -13,6 +14,7 @@ type AuthStatus = 'loading' | 'authenticated' | 'unauthorized' | 'error';
 
 export function PrivateRoute({ children }: PrivateRouteProps) {
   const [status, setStatus] = useState<AuthStatus>('loading');
+  const { t } = useTranslation();
 
   useEffect(() => {
     let cancelled = false;
@@ -75,5 +77,5 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
   }
 
   // status === 'error'
-  return <Unauthorized message="Вы не авторизованы. Войдите в аккаунт" />;
+  return <Unauthorized message={t('unauthorized.pleaseAuthorize')} />;
 }

@@ -25,7 +25,11 @@
     "errorDialogTitle": "Error",
     "close": "Close",
     "unknownError": "Unknown error",
-    "unknownListError": "Unknown error loading lists"
+    "unknownListError": "Unknown error loading lists",
+    "errors": {
+      "loadingLists": "Error loading lists: {{status}}",
+      "unknownLists": "Unknown error loading lists"
+    }
   },
   "listDetailsPage": {
     "title": "List",
@@ -53,7 +57,24 @@
     "unknownError": "Unknown error",
     "refresh": "Refresh",
     "editList": "Edit list",
-    "unknownCategoriesError": "Unknown error loading categories"
+    "unknownCategoriesError": "Unknown error loading categories",
+    "name": "Name",
+    "save": "Save",
+    "back": "Back",
+    "delete": "Delete",
+    "updated": "Updated",
+    "cancel": "Cancel",
+    "errors": {
+      "loadingList": "Error loading list: {{status}}",
+      "unknown": "Unknown error",
+      "loadingCategories": "Error loading categories: {{status}}",
+      "unknownCategories": "Unknown error loading categories",
+      "creatingItem": "Error creating item: {{status}}",
+      "savingItem": "Error saving item: {{status}}",
+      "deletingItem": "Error deleting item: {{status}}",
+      "savingList": "Error saving list: {{status}}",
+      "deletingList": "Error deleting list: {{status}}"
+    }
   },
   "accountPage": {
     "title": "Account",
@@ -64,7 +85,8 @@
   "unauthorized": {
     "notAuthorized": "Not authorized",
     "message": "You must be authorized to see the page content.",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "pleaseAuthorize": "Please, press the button below to authorize"
   },
   "header": {
     "hotKeys": "Hot keys",
@@ -88,5 +110,13 @@
   },
   "common": {
     "error": "Error"
+  },
+  "error": {
+    "fallback": {
+      "title": "Sorry, I guess, something went wrong. You can:",
+      "contact": "contact with author by this email - {{email}}",
+      "or": "or",
+      "reset": "Press here to reset the application"
+    }
   }
 }

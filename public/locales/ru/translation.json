@@ -25,7 +25,11 @@
     "errorDialogTitle": "Ошибка",
     "close": "Закрыть",
     "unknownError": "Неизвестная ошибка",
-    "unknownListError": "Неизвестная ошибка загрузки списков"
+    "unknownListError": "Неизвестная ошибка загрузки списков",
+    "errors": {
+      "loadingLists": "Ошибка загрузки списков: {{status}}",
+      "unknownLists": "Неизвестная ошибка загрузки списков"
+    }
   },
   "listDetailsPage": {
     "title": "Список",
@@ -53,7 +57,24 @@
     "unknownError": "Неизвестная ошибка",
     "refresh": "Обновить",
     "editList": "Редактировать список",
-    "unknownCategoriesError": "Неизвестная ошибка категорий"
+    "unknownCategoriesError": "Неизвестная ошибка категорий",
+    "name": "Название",
+    "save": "Сохранить",
+    "back": "Назад",
+    "delete": "Удалить",
+    "updated": "Обновлён",
+    "cancel": "Отмена",
+    "errors": {
+      "loadingList": "Ошибка загрузки списка: {{status}}",
+      "unknown": "Неизвестная ошибка",
+      "loadingCategories": "Ошибка загрузки категорий: {{status}}",
+      "unknownCategories": "Неизвестная ошибка категорий",
+      "creatingItem": "Ошибка создания элемента: {{status}}",
+      "savingItem": "Ошибка сохранения элемента: {{status}}",
+      "deletingItem": "Ошибка удаления элемента: {{status}}",
+      "savingList": "Ошибка сохранения списка: {{status}}",
+      "deletingList": "Ошибка удаления списка: {{status}}"
+    }
   },
   "accountPage": {
     "title": "Аккаунт",
@@ -64,7 +85,8 @@
   "unauthorized": {
     "notAuthorized": "Не авторизован",
     "message": "Вы должны быть авторизованы, чтобы видеть содержимое страницы.",
-    "signIn": "Войти"
+    "signIn": "Войти",
+    "pleaseAuthorize": "Пожалуйста, используйте кнопку ниже, чтобы авторизоваться"
   },
   "header": {
     "hotKeys": "Горячие клавиши",
@@ -88,5 +110,13 @@
   },
   "common": {
     "error": "Ошибка"
+  },
+  "error": {
+    "fallback": {
+      "title": "Извините, возможно, что-то пошло не так. Вы можете:",
+      "contact": "связаться с автором по электронной почте - {{email}}",
+      "or": "или",
+      "reset": "Нажмите здесь, чтобы сбросить приложение"
+    }
   }
 }

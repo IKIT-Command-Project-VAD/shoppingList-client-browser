@@ -71,15 +71,16 @@ function ListsPage() {
     setError(null);
     try {
       const response = await fetch('/api/lists', { method: 'GET', credentials: 'include' });
-      if (!response.ok) throw new Error(`Ошибка загрузки списков: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listsPage.errors.loadingLists', { status: response.status }));
       const data = (await response.json()) as ListShoppingListsResponse;
       setLists(Array.isArray(data) ? data : []);
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка загрузки списков');
+      setError((e as Error).message ?? t('listsPage.errors.unknownLists'));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void loadLists();

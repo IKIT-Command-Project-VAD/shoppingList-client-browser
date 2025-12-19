@@ -121,16 +121,17 @@ function ListDetailsPage() {
     setError(null);
     try {
       const response = await fetch(`/api/lists/${id}`, { method: 'GET', credentials: 'include' });
-      if (!response.ok) throw new Error(`Ошибка загрузки списка: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listDetailsPage.errors.loadingList', { status: response.status }));
       const data = (await response.json()) as ShoppingListRecord;
       setList(data);
       setItems(data.items ?? []);
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, t]);
 
   useEffect(() => {
     void loadList();
@@ -188,15 +189,16 @@ function ListDetailsPage() {
     setLoadingCategories(true);
     try {
       const response = await fetch('/api/categories', { method: 'GET', credentials: 'include' });
-      if (!response.ok) throw new Error(`Ошибка загрузки категорий: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listDetailsPage.errors.loadingCategories', { status: response.status }));
       const data = (await response.json()) as CategoryRecord[];
       setCategories(Array.isArray(data) ? data : []);
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка категорий');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknownCategories'));
     } finally {
       setLoadingCategories(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void loadCategories();
@@ -261,11 +263,12 @@ function ListDetailsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error(`Ошибка создания элемента: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listDetailsPage.errors.creatingItem', { status: response.status }));
       setIsAddOpen(false);
       await loadList();
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
@@ -294,11 +297,12 @@ function ListDetailsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error(`Ошибка сохранения элемента: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listDetailsPage.errors.savingItem', { status: response.status }));
       setIsEditOpen(false);
       await loadList();
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
@@ -314,13 +318,13 @@ function ListDetailsPage() {
         credentials: 'include',
       });
       if (!response.ok && response.status !== 204)
-        throw new Error(`Ошибка удаления элемента: ${response.status}`);
+        throw new Error(t('listDetailsPage.errors.deletingItem', { status: response.status }));
       setIsItemDeleteOpen(false);
       setIsEditOpen(false);
       setSelectedItemId(null);
       await loadList();
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
@@ -345,11 +349,12 @@ function ListDetailsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: list.id, name }),
       });
-      if (!response.ok) throw new Error(`Ошибка сохранения списка: ${response.status}`);
+      if (!response.ok)
+        throw new Error(t('listDetailsPage.errors.savingList', { status: response.status }));
       setIsListEditOpen(false);
       await loadList();
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
@@ -365,11 +370,11 @@ function ListDetailsPage() {
         credentials: 'include',
       });
       if (!response.ok && response.status !== 204)
-        throw new Error(`Ошибка удаления списка: ${response.status}`);
+        throw new Error(t('listDetailsPage.errors.deletingList', { status: response.status }));
       setIsListDeleteOpen(false);
       navigate('/lists');
     } catch (e) {
-      setError((e as Error).message ?? 'Неизвестная ошибка');
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
       setLoading(false);
     }
