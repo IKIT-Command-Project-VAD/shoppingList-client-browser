@@ -54,6 +54,10 @@
     "category": "Category",
     "withoutCategory": "Without category",
     "refreshCategories": "Refresh categories",
+    "groupByCategory": "Group by category",
+    "filterByCategory": "Filter by category",
+    "allCategories": "All categories",
+    "noItemsMatchingFilter": "No items matching the selected filter",
     "checked": "Checked",
     "all": "All",
     "done": "Done",
@@ -107,9 +111,6 @@
     "russian": "Русский",
     "en": "EN",
     "ru": "RU"
-  },
-  "welcomePage": {
-    "title": "Welcome"
   },
   "common": {
     "error": "Error"
