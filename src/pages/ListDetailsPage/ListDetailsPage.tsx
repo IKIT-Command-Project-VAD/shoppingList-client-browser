@@ -3,9 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import GridViewIcon from '@mui/icons-material/GridView';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import {
   Box,
   Button,
@@ -23,9 +27,11 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListSubheader,
   MenuItem,
   Select,
   Stack,
+  Switch,
   TextField,
   Tooltip,
   Typography,
@@ -99,6 +105,8 @@ function ListDetailsPage() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isItemDeleteOpen, setIsItemDeleteOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [isGrouped, setIsGrouped] = useState(false);
   const [itemForm, setItemForm] = useState<ItemFormState>({
     name: '',
     quantity: '1',
@@ -117,6 +125,34 @@ function ListDetailsPage() {
     () => items.find((i) => i.id === selectedItemId) ?? null,
     [items, selectedItemId],
   );
+
+  const filteredItems = useMemo(() => {
+    const base = (() => {
+      if (filterCategory === 'all') return items;
+      if (filterCategory === '') return items.filter((i) => !i.categoryId);
+      return items.filter((i) => i.categoryId === filterCategory);
+    })();
+
+    return [...base].sort((a, b) => {
+      if (a.isChecked !== b.isChecked) {
+        return a.isChecked ? 1 : -1;
+      }
+      return a.name.localeCompare(b.name, 'ru', { sensitivity: 'base' });
+    });
+  }, [items, filterCategory]);
+
+  const groupedItems = useMemo(() => {
+    if (!isGrouped) return { all: filteredItems };
+
+    const groups: Record<string, ListItemRecord[]> = {};
+    filteredItems.forEach((item) => {
+      const catId = item.categoryId ?? '';
+      if (!groups[catId]) groups[catId] = [];
+      groups[catId].push(item);
+    });
+
+    return groups;
+  }, [filteredItems, isGrouped]);
 
   const loadList = useCallback(async () => {
     if (!id) return;
@@ -381,7 +417,7 @@ function ListDetailsPage() {
       if (!response.ok && response.status !== 204)
         throw new Error(t('listDetailsPage.errors.deletingList', { status: response.status }));
       setIsListDeleteOpen(false);
-      navigate('/lists');
+      navigate('/');
     } catch (e) {
       setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
     } finally {
@@ -396,11 +432,21 @@ function ListDetailsPage() {
     return (
       <Stack direction="row" alignItems="center" spacing={1}>
         <Stack alignItems="flex-end" textAlign="right">
-          <Typography variant="body1">
+          <Typography
+            variant="body1"
+            sx={{
+              color: item.isChecked ? 'text.secondary' : 'text.primary',
+              textDecoration: item.isChecked ? 'line-through' : 'none',
+            }}
+          >
             {item.quantity}
             {unit}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textDecoration: item.isChecked ? 'line-through' : 'none' }}
+          >
             {total != null ? `${total} ${item.currency ?? '₽'}` : '—'}
           </Typography>
         </Stack>
@@ -423,6 +469,9 @@ function ListDetailsPage() {
     <Container sx={{ py: 3 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} gap={1}>
         <Stack direction="row" alignItems="center" gap={1}>
+          <IconButton onClick={() => navigate('/')} edge="start" sx={{ mr: 1 }}>
+            <ArrowBackIcon />
+          </IconButton>
           <Typography variant="h5">{list?.name ?? t('listDetailsPage.title')}</Typography>
         </Stack>
         <Stack direction="row" gap={1} alignItems="center">
@@ -461,28 +510,124 @@ function ListDetailsPage() {
         </Typography>
       )}
 
-      <List>
-        {items.map((item) => (
-          <ListItem
-            key={item.id}
-            divider
-            secondaryAction={renderItemRight(item)}
-            onClick={() => openEditDialog(item.id)}
-            sx={{ cursor: 'pointer' }}
+      <Stack direction="row" spacing={2} alignItems="center" mb={2} flexWrap="wrap" gap={1}>
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <InputLabel id="filter-category-label">
+            {t('listDetailsPage.filterByCategory')}
+          </InputLabel>
+          <Select
+            labelId="filter-category-label"
+            label={t('listDetailsPage.filterByCategory')}
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            startAdornment={<FilterListIcon sx={{ mr: 1, color: 'text.secondary' }} />}
           >
-            <ListItemText
-              primary={<Typography variant="subtitle1">{item.name}</Typography>}
-              secondary={
-                <Typography variant="body2" color="text.secondary">
-                  {t('listDetailsPage.updated')}: {new Date(item.updatedAt).toLocaleString()}
-                </Typography>
-              }
+            <MenuItem value="all">{t('listDetailsPage.allCategories')}</MenuItem>
+            <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
+            {categories.map((c) => (
+              <MenuItem key={c.id} value={c.id}>
+                {c.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isGrouped}
+              onChange={(e) => setIsGrouped(e.target.checked)}
+              size="small"
             />
-          </ListItem>
-        ))}
+          }
+          label={
+            <Stack direction="row" alignItems="center" gap={0.5}>
+              {isGrouped ? <GridViewIcon fontSize="small" /> : <ViewListIcon fontSize="small" />}
+              <Typography variant="body2">{t('listDetailsPage.groupByCategory')}</Typography>
+            </Stack>
+          }
+        />
+      </Stack>
+
+      <List>
+        {Object.entries(groupedItems).map(([catId, groupItems]) => {
+          const category = categories.find((c) => c.id === catId);
+          const categoryName = category
+            ? category.name
+            : catId === ''
+              ? t('listDetailsPage.withoutCategory')
+              : '';
+
+          return (
+            <Box key={catId}>
+              {isGrouped && categoryName && (
+                <ListSubheader sx={{ bgcolor: 'background.default', fontWeight: 'bold' }}>
+                  {categoryName} ({groupItems.length})
+                </ListSubheader>
+              )}
+              {groupItems.map((item) => (
+                <ListItem
+                  key={item.id}
+                  divider
+                  secondaryAction={renderItemRight(item)}
+                  onClick={() => openEditDialog(item.id)}
+                  sx={{
+                    cursor: 'pointer',
+                    opacity: item.isChecked ? 0.6 : 1,
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          color: item.isChecked ? 'text.secondary' : 'text.primary',
+                          textDecoration: item.isChecked ? 'line-through' : 'none',
+                        }}
+                      >
+                        {item.name}
+                      </Typography>
+                    }
+                    secondary={
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ textDecoration: item.isChecked ? 'line-through' : 'none' }}
+                        >
+                          {t('listDetailsPage.updated')}:{' '}
+                          {new Date(item.updatedAt).toLocaleString()}
+                        </Typography>
+                        {item.category && !isGrouped && (
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              bgcolor: 'action.selected',
+                              px: 1,
+                              borderRadius: 1,
+                              color: 'text.secondary',
+                              opacity: item.isChecked ? 0.7 : 1,
+                            }}
+                          >
+                            {item.category.name}
+                          </Typography>
+                        )}
+                      </Stack>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </Box>
+          );
+        })}
         {items.length === 0 && !loading && (
           <Typography color="text.secondary" mt={2}>
             {t('listDetailsPage.noItems')}
+          </Typography>
+        )}
+        {items.length > 0 && filteredItems.length === 0 && (
+          <Typography color="text.secondary" mt={2}>
+            {t('listDetailsPage.noItemsMatchingFilter')}
           </Typography>
         )}
       </List>
