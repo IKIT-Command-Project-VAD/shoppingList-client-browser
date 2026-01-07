@@ -1,5 +1,4 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
-import HomeIcon from '@mui/icons-material/Home';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
 import asyncComponentLoader from '@/utils/loader';
@@ -8,23 +7,17 @@ import { Routes } from './types';
 
 const routes: Routes = [
   {
-    component: asyncComponentLoader(() => import('@/pages/Welcome')),
+    component: asyncComponentLoader(() => import('@/pages/ListsPage')),
     path: '/',
-    title: 'welcome',
-    icon: HomeIcon,
+    title: 'lists',
+    icon: ListAltIcon,
+    protected: true,
   },
   {
     component: asyncComponentLoader(() => import('@/pages/AccountPage')),
     path: '/account',
     title: 'account',
     icon: GitHubIcon,
-    protected: true,
-  },
-  {
-    component: asyncComponentLoader(() => import('@/pages/ListsPage')),
-    path: '/lists',
-    title: 'lists',
-    icon: ListAltIcon,
     protected: true,
   },
   {
