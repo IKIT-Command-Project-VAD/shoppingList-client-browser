@@ -115,6 +115,28 @@
   "common": {
     "error": "Error"
   },
+  "categories": {
+    "Аптека / здоровье": "Pharmacy / Health",
+    "Хлеб и выпечка": "Bread and pastries",
+    "Закуски": "Snacks",
+    "Заморозка": "Frozen foods",
+    "Овощи": "Vegetables",
+    "Гигиена": "Hygiene",
+    "Мясо": "Meat",
+    "Зоотовары": "Pet supplies",
+    "Детские товары": "Baby products",
+    "Бытовая химия": "Household chemicals",
+    "Рыба и морепродукты": "Fish and seafood",
+    "Сладости и десерты": "Sweets and desserts",
+    "Напитки": "Beverages",
+    "Для дома": "For home",
+    "Фрукты": "Fruits",
+    "Молочные продукты": "Dairy products",
+    "Консервы": "Canned goods",
+    "Бакалея и специи": "Groceries and spices",
+    "Соусы и приправы": "Sauces and condiments",
+    "Крупы и макароны": "Grains and pasta"
+  },
   "error": {
     "fallback": {
       "title": "Sorry, I guess, something went wrong. You can:",

@@ -94,6 +94,18 @@ function ListDetailsPage() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
+  // Функция для перевода имени категории
+  const getCategoryName = useCallback(
+    (categoryName: string | null | undefined): string => {
+      if (!categoryName) return '';
+      const translationKey = `categories.${categoryName}`;
+      const translated = t(translationKey, { defaultValue: categoryName });
+      // Если перевод не найден (вернулся ключ), возвращаем оригинальное имя
+      return translated === translationKey ? categoryName : translated;
+    },
+    [t],
+  );
+
   const [list, setList] = useState<ShoppingListRecord | null>(null);
   const [items, setItems] = useState<ListItemRecord[]>([]);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
@@ -526,7 +538,7 @@ function ListDetailsPage() {
             <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
             {categories.map((c) => (
               <MenuItem key={c.id} value={c.id}>
-                {c.name}
+                {getCategoryName(c.name)}
               </MenuItem>
             ))}
           </Select>
@@ -553,7 +565,7 @@ function ListDetailsPage() {
         {Object.entries(groupedItems).map(([catId, groupItems]) => {
           const category = categories.find((c) => c.id === catId);
           const categoryName = category
-            ? category.name
+            ? getCategoryName(category.name)
             : catId === ''
               ? t('listDetailsPage.withoutCategory')
               : '';
@@ -609,7 +621,7 @@ function ListDetailsPage() {
                               opacity: item.isChecked ? 0.7 : 1,
                             }}
                           >
-                            {item.category.name}
+                            {getCategoryName(item.category.name)}
                           </Typography>
                         )}
                       </Stack>
@@ -699,7 +711,7 @@ function ListDetailsPage() {
                   <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
                   {categories.map((c) => (
                     <MenuItem key={c.id} value={c.id}>
-                      {c.name}
+                      {getCategoryName(c.name)}
                     </MenuItem>
                   ))}
                 </Select>
@@ -787,7 +799,7 @@ function ListDetailsPage() {
                   <MenuItem value="">{t('listDetailsPage.withoutCategory')}</MenuItem>
                   {categories.map((c) => (
                     <MenuItem key={c.id} value={c.id}>
-                      {c.name}
+                      {getCategoryName(c.name)}
                     </MenuItem>
                   ))}
                 </Select>
