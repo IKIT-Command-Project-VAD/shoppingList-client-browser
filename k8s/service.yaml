@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shopping-list-client
+  namespace: default
+  labels:
+    app: shopping-list-client
+    component: frontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: shopping-list-client
+  sessionAffinity: None

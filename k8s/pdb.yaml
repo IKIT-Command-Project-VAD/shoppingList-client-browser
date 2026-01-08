@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: shopping-list-client-pdb
+  namespace: default
+  labels:
+    app: shopping-list-client
+    component: frontend
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: shopping-list-client

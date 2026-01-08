@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shopping-list-client-config
+  namespace: default
+  labels:
+    app: shopping-list-client
+    component: frontend
+data:
+  # Runtime configuration (if needed)
+  # These are NOT build-time variables
+  # For VITE_* variables, use build args in Dockerfile
+  # api-url: "https://api.example.com"
+  # environment: "production"
