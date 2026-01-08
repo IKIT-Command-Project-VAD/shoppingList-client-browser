@@ -46,6 +46,8 @@
     "confirmDeleteItemText": "Action cannot be undone. Continue?",
     "confirmDeleteList": "Delete list?",
     "confirmDeleteListText": "The list and all items will be deleted. Continue?",
+    "confirmBulkDeleteItems": "Delete selected items?",
+    "confirmBulkDeleteItemsText": "Are you sure you want to delete {{count}} items? This action cannot be undone.",
     "noItems": "No items yet. Add the first one.",
     "quantity": "Quantity",
     "units": "Units (pcs/gr/kg)",
@@ -71,6 +73,8 @@
     "delete": "Delete",
     "updated": "Updated",
     "cancel": "Cancel",
+    "uncheckSelected": "Uncheck selected ({{count}})",
+    "deleteSelected": "Delete selected ({{count}})",
     "errors": {
       "loadingList": "Error loading list: {{status}}",
       "unknown": "Unknown error",
@@ -80,7 +84,9 @@
       "savingItem": "Error saving item: {{status}}",
       "deletingItem": "Error deleting item: {{status}}",
       "savingList": "Error saving list: {{status}}",
-      "deletingList": "Error deleting list: {{status}}"
+      "deletingList": "Error deleting list: {{status}}",
+      "uncheckingItems": "Error unchecking items: {{status}}",
+      "deletingItems": "Error deleting items: {{status}}"
     }
   },
   "accountPage": {

@@ -43,6 +43,8 @@
     "confirmDeleteItemText": "Действие нельзя отменить. Продолжить?",
     "confirmDeleteList": "Удалить список?",
     "confirmDeleteListText": "Список и все элементы будут удалены. Продолжить?",
+    "confirmBulkDeleteItems": "Удалить выбранные элементы?",
+    "confirmBulkDeleteItemsText": "Вы уверены, что хотите удалить {{count}} элементов? Действие нельзя отменить.",
     "noItems": "Нет элементов. Добавьте первый.",
     "quantity": "Количество",
     "units": "Ед. изм. (шт/гр/кг)",
@@ -68,6 +70,8 @@
     "delete": "Удалить",
     "updated": "Обновлён",
     "cancel": "Отмена",
+    "uncheckSelected": "Разотметить выбранные ({{count}})",
+    "deleteSelected": "Удалить выбранные ({{count}})",
     "errors": {
       "loadingList": "Ошибка загрузки списка: {{status}}",
       "unknown": "Неизвестная ошибка",
@@ -77,7 +81,9 @@
       "savingItem": "Ошибка сохранения элемента: {{status}}",
       "deletingItem": "Ошибка удаления элемента: {{status}}",
       "savingList": "Ошибка сохранения списка: {{status}}",
-      "deletingList": "Ошибка удаления списка: {{status}}"
+      "deletingList": "Ошибка удаления списка: {{status}}",
+      "uncheckingItems": "Ошибка разотмечания элементов: {{status}}",
+      "deletingItems": "Ошибка удаления элементов: {{status}}"
     }
   },
   "accountPage": {

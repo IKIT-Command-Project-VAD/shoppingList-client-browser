@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -131,6 +132,7 @@ function ListDetailsPage() {
 
   const [isListEditOpen, setIsListEditOpen] = useState(false);
   const [isListDeleteOpen, setIsListDeleteOpen] = useState(false);
+  const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false);
   const [listForm, setListForm] = useState<ListFormState>({ name: '' });
 
   const selectedItem = useMemo(
@@ -437,6 +439,60 @@ function ListDetailsPage() {
     }
   };
 
+  const checkedItems = useMemo(() => items.filter((item) => item.isChecked), [items]);
+
+  const uncheckCheckedItems = useCallback(async () => {
+    if (!id || checkedItems.length === 0) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const itemIds = checkedItems.map((item) => item.id);
+      const response = await fetchWithLocale(`/api/lists/${id}/items`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          listId: id,
+          listItemIds: itemIds,
+          isChecked: false,
+        }),
+      });
+      if (!response.ok && response.status !== 204)
+        throw new Error(t('listDetailsPage.errors.uncheckingItems', { status: response.status }));
+      await loadList();
+    } catch (e) {
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
+    } finally {
+      setLoading(false);
+    }
+  }, [id, checkedItems, loadList, t]);
+
+  const deleteCheckedItems = useCallback(async () => {
+    if (!id || checkedItems.length === 0) return;
+    setIsBulkDeleteOpen(false);
+    setLoading(true);
+    setError(null);
+    try {
+      const itemIds = checkedItems.map((item) => item.id);
+      const response = await fetchWithLocale(`/api/lists/${id}/items`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          listId: id,
+          listItemIds: itemIds,
+        }),
+      });
+      if (!response.ok && response.status !== 204)
+        throw new Error(t('listDetailsPage.errors.deletingItems', { status: response.status }));
+      await loadList();
+    } catch (e) {
+      setError((e as Error).message ?? t('listDetailsPage.errors.unknown'));
+    } finally {
+      setLoading(false);
+    }
+  }, [id, checkedItems, loadList, t]);
+
   const renderItemRight = (item: ListItemRecord) => {
     const total =
       item.price != null && !Number.isNaN(item.price) ? item.price * item.quantity : null;
@@ -559,6 +615,30 @@ function ListDetailsPage() {
             </Stack>
           }
         />
+
+        {checkedItems.length > 0 && (
+          <>
+            <Button
+              startIcon={<CheckBoxOutlineBlankIcon />}
+              variant="outlined"
+              size="small"
+              onClick={uncheckCheckedItems}
+              disabled={loading}
+            >
+              {t('listDetailsPage.uncheckSelected', { count: checkedItems.length })}
+            </Button>
+            <Button
+              startIcon={<DeleteIcon />}
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => setIsBulkDeleteOpen(true)}
+              disabled={loading}
+            >
+              {t('listDetailsPage.deleteSelected', { count: checkedItems.length })}
+            </Button>
+          </>
+        )}
       </Stack>
 
       <List>
@@ -904,6 +984,24 @@ function ListDetailsPage() {
           <Button onClick={() => setIsListDeleteOpen(false)}>{t('listsPage.cancel')}</Button>
           <Button color="error" variant="contained" onClick={submitListDelete} disabled={loading}>
             {t('listsPage.delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Подтверждение массового удаления элементов */}
+      <Dialog open={isBulkDeleteOpen} onClose={() => setIsBulkDeleteOpen(false)}>
+        <DialogTitle>{t('listDetailsPage.confirmBulkDeleteItems')}</DialogTitle>
+        <DialogContent>
+          <Typography>
+            {t('listDetailsPage.confirmBulkDeleteItemsText', {
+              count: checkedItems.length,
+            })}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsBulkDeleteOpen(false)}>{t('listDetailsPage.cancel')}</Button>
+          <Button color="error" variant="contained" onClick={deleteCheckedItems} disabled={loading}>
+            {t('listDetailsPage.delete')}
           </Button>
         </DialogActions>
       </Dialog>
