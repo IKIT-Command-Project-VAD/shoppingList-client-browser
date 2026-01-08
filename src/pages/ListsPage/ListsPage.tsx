@@ -174,18 +174,33 @@ function ListsPage() {
   };
 
   return (
-    <Container sx={{ py: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} gap={1}>
-        <Typography variant="h5">{t('listsPage.title')}</Typography>
-        <Stack direction="row" gap={1} alignItems="center">
-          <Tooltip title={t('listsPage.refresh')}>
-            <span>
-              <IconButton onClick={loadLists} disabled={loading}>
-                <RefreshIcon />
-              </IconButton>
-            </span>
-          </Tooltip>
-          {isDesktop && (
+    <Container sx={{ py: { xs: 2, md: 3 }, px: { xs: 1, md: 3 } }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        mb={{ xs: 1.5, md: 2 }}
+        gap={1}
+      >
+        <Typography
+          variant="h5"
+          sx={{
+            fontSize: { xs: '1.25rem', md: '1.5rem' },
+            flex: { xs: '1 1 auto', md: '0 0 auto' },
+            minWidth: 0,
+          }}
+        >
+          {t('listsPage.title')}
+        </Typography>
+        {isDesktop ? (
+          <Stack direction="row" gap={1} alignItems="center">
+            <Tooltip title={t('listsPage.refresh')}>
+              <span>
+                <IconButton onClick={loadLists} disabled={loading}>
+                  <RefreshIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
             <Button
               startIcon={<AddIcon />}
               variant="contained"
@@ -194,23 +209,41 @@ function ListsPage() {
             >
               {t('listsPage.createList')}
             </Button>
-          )}
-        </Stack>
+          </Stack>
+        ) : (
+          <Tooltip title={t('listsPage.refresh')}>
+            <span>
+              <IconButton onClick={loadLists} disabled={loading} size="small">
+                <RefreshIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+        )}
       </Stack>
 
       {loading && <Loading />}
 
-      <Grid container spacing={2}>
+      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
         {lists.map((list) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={list.id}>
-            <Card>
+            <Card sx={{ height: '100%' }}>
               <Box position="relative">
                 <CardActionArea onClick={() => navigate(`/lists/${list.id}`)}>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom noWrap title={list.name}>
+                  <CardContent sx={{ pb: { xs: '36px !important', sm: '16px !important' } }}>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      noWrap
+                      title={list.name}
+                      sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
+                    >
                       {list.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+                    >
                       {t('listsPage.updated')}: {new Date(list.updatedAt).toLocaleString()}
                     </Typography>
                   </CardContent>
@@ -223,7 +256,11 @@ function ListsPage() {
                       e.stopPropagation();
                       openEdit(list.id);
                     }}
-                    sx={{ position: 'absolute', top: 8, right: 8 }}
+                    sx={{
+                      position: 'absolute',
+                      top: { xs: 4, sm: 8 },
+                      right: { xs: 4, sm: 8 },
+                    }}
                   >
                     <EditIcon fontSize="small" />
                   </IconButton>

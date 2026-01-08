@@ -498,13 +498,14 @@ function ListDetailsPage() {
       item.price != null && !Number.isNaN(item.price) ? item.price * item.quantity : null;
     const unit = item.unit ? ` ${item.unit}` : '';
     return (
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1 }}>
         <Stack alignItems="flex-end" textAlign="right">
           <Typography
             variant="body1"
             sx={{
               color: item.isChecked ? 'text.secondary' : 'text.primary',
               textDecoration: item.isChecked ? 'line-through' : 'none',
+              fontSize: { xs: '0.875rem', sm: '1rem' },
             }}
           >
             {item.quantity}
@@ -513,14 +514,17 @@ function ListDetailsPage() {
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ textDecoration: item.isChecked ? 'line-through' : 'none' }}
+            sx={{
+              textDecoration: item.isChecked ? 'line-through' : 'none',
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            }}
           >
             {total != null ? `${total} ${item.currency ?? '₽'}` : '—'}
           </Typography>
         </Stack>
         <Checkbox
           checked={item.isChecked}
-          size="medium"
+          size={isDesktop ? 'medium' : 'small'}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => {
             e.stopPropagation();
@@ -666,6 +670,8 @@ function ListDetailsPage() {
                   sx={{
                     cursor: 'pointer',
                     opacity: item.isChecked ? 0.6 : 1,
+                    alignItems: { xs: 'flex-start', sm: 'center' },
+                    py: { xs: 1.5, sm: 1 },
                   }}
                 >
                   <ListItemText
@@ -675,17 +681,27 @@ function ListDetailsPage() {
                         sx={{
                           color: item.isChecked ? 'text.secondary' : 'text.primary',
                           textDecoration: item.isChecked ? 'line-through' : 'none',
+                          fontSize: { xs: '0.875rem', sm: '1rem' },
+                          pr: { xs: 8, sm: 0 },
                         }}
                       >
                         {item.name}
                       </Typography>
                     }
                     secondary={
-                      <Stack direction="row" spacing={1} alignItems="center">
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={{ xs: 0.5, sm: 1 }}
+                        alignItems={{ xs: 'flex-start', sm: 'center' }}
+                        sx={{ mt: { xs: 0.5, sm: 0 } }}
+                      >
                         <Typography
                           variant="body2"
                           color="text.secondary"
-                          sx={{ textDecoration: item.isChecked ? 'line-through' : 'none' }}
+                          sx={{
+                            textDecoration: item.isChecked ? 'line-through' : 'none',
+                            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                          }}
                         >
                           {t('listDetailsPage.updated')}:{' '}
                           {new Date(item.updatedAt).toLocaleString()}
@@ -699,6 +715,8 @@ function ListDetailsPage() {
                               borderRadius: 1,
                               color: 'text.secondary',
                               opacity: item.isChecked ? 0.7 : 1,
+                              fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                              alignSelf: { xs: 'flex-start', sm: 'center' },
                             }}
                           >
                             {getCategoryName(item.category.name)}
