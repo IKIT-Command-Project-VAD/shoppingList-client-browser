@@ -1,8 +1,8 @@
-const title = 'React PWA';
+const title = 'Shopping List';
 
-const email = 'auther-email@gmail.com';
+const email = '';
 
-const repository = 'https://github.com/suren-atoyan/react-pwa';
+const repository = '';
 
 const dateFormat = 'MMMM DD, YYYY';
 
@@ -14,7 +14,7 @@ const loader = {
 
 const defaultMetaTags = {
   image: '/cover.png',
-  description: 'Starter kit for modern web applications',
+  description: 'Удобное приложение для составления и управления списками покупок',
 };
 
 export { loader, dateFormat, repository, email, title, defaultMetaTags };

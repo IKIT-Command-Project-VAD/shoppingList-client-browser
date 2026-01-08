@@ -1,31 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
-  <title>React PWA</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- https://web.dev/uses-rel-preconnect -->
+  
+  <!-- Primary Meta Tags -->
+  <title>Shopping List - Список покупок</title>
+  <meta name="title" content="Shopping List - Список покупок" />
+  <meta name="description" content="Удобное приложение для составления и управления списками покупок. Создавайте списки, добавляйте товары, отслеживайте покупки и делитесь списками с семьей." />
+  <meta name="keywords" content="список покупок, shopping list, покупки, магазин, продукты, планирование покупок" />
+  <meta name="author" content="Shopping List Team" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Russian" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Shopping List - Список покупок" />
+  <meta property="og:description" content="Удобное приложение для составления и управления списками покупок. Создавайте списки, добавляйте товары, отслеживайте покупки и делитесь списками с семьей." />
+  <meta property="og:image" content="/cover.png" />
+  <meta property="og:url" content="" />
+  <meta property="og:site_name" content="Shopping List" />
+  <meta property="og:locale" content="ru_RU" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shopping List - Список покупок" />
+  <meta name="twitter:description" content="Удобное приложение для составления и управления списками покупок." />
+  <meta name="twitter:image" content="/cover.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="alternate icon" href="/favicon.ico" type="image/png" sizes="16x16" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="mask-icon" href="/favicon.svg" color="#1976d2" />
+  
+  <!-- Theme -->
+  <meta name="theme-color" content="#1976d2" />
+  <meta name="msapplication-TileColor" content="#1976d2" />
+
+  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <meta name="description" content="Starter kit for modern web applications">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/favicon.ico" type="image/png" sizes="16x16">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF">
-  <meta name="theme-color" content="#ffffff">
-
-  <meta name="keywords" content="react, pwa, boilerplate, template" />
-
-  <meta name="description" content="Starter kit for modern web applications" data-react-helmet="true" />
-  <meta property="og:title" content="React-PWA" data-react-helmet="true">
-  <meta property="og:description" content="Starter kit for modern web applications" data-react-helmet="true">
-  <meta property="og:url" content="https://react-pwa.surenatoyan.com/" data-react-helmet="true">
-  <meta property="og:image" content="https://react-pwa.surenatoyan.com/cover.png" data-react-helmet="true" />
-  <meta name="twitter:card" content="summary" data-react-helmet="true" />
-
-  <!-- https://web.dev/defer-non-critical-css/ -->
+  <!-- Defer non-critical CSS -->
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" as="style"
     onload="this.onload=null;this.rel='stylesheet'">
 </head>
