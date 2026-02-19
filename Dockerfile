@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production=false
+RUN npm install
 
 # Copy source code and configuration
 COPY . .
@@ -25,7 +25,7 @@ ENV VITE_KEYCLOAK_REALM=${VITE_KEYCLOAK_REALM}
 ENV VITE_KEYCLOAK_CLIENT_ID=${VITE_KEYCLOAK_CLIENT_ID}
 
 # Build the application
-RUN npm run build
+RUN npx vite build
 
 # Stage 2: Production
 FROM nginx:alpine
