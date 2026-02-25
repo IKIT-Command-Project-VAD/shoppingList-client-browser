@@ -1,0 +1,27 @@
+services:
+  client-browser:
+    volumes:
+      - ./env:/app/env:ro
+    networks:
+      - default
+      - shopping_list_network
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - node_modules/
+            - dist/
+            - .git/
+            - coverage/
+            - test-results/
+            - playwright-report/
+            - .vscode/
+            - .idea/
+            - env/
+
+
+networks:
+  shopping_list_network:
+    external: true
