@@ -26,12 +26,23 @@
     "close": "Close",
     "unknownError": "Unknown error",
     "unknownListError": "Unknown error loading lists",
+    "sharedBy": "Shared by",
     "errors": {
       "loadingLists": "Error loading lists: {{status}}",
       "creatingList": "Error creating list: {{status}}",
       "savingList": "Error saving list: {{status}}",
       "deletingList": "Error deleting list: {{status}}",
       "unknownLists": "Unknown error loading lists"
+    }
+  },
+  "joinPage": {
+    "joining": "Joining list...",
+    "backToLists": "Back to My Lists",
+    "errors": {
+      "missingToken": "Join token is missing.",
+      "invalidToken": "The share link is invalid or inactive.",
+      "expiredToken": "The share link has expired.",
+      "unknownError": "An error occurred while joining the list."
     }
   },
   "listDetailsPage": {
@@ -86,8 +97,22 @@
       "savingList": "Error saving list: {{status}}",
       "deletingList": "Error deleting list: {{status}}",
       "uncheckingItems": "Error unchecking items: {{status}}",
-      "deletingItems": "Error deleting items: {{status}}"
-    }
+      "deletingItems": "Error deleting items: {{status}}",
+      "creatingShareLink": "Error creating share link: {{status}}",
+      "loadingShareLinks": "Error loading share links: {{status}}"
+    },
+    "share": "Share",
+    "members": "Members",
+    "shareLinks": "Share Links",
+    "createShareLink": "Create Share Link",
+    "permission": "Permission",
+    "readOnly": "Read Only",
+    "readWrite": "Read & Write",
+    "expiresAt": "Expires At (optional)",
+    "noShareLinks": "No share links yet. Create one to invite others.",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied to clipboard",
+    "inviteOthers": "Invite others to this list"
   },
   "accountPage": {
     "title": "Account",

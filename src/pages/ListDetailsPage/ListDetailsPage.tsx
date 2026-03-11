@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import GridViewIcon from '@mui/icons-material/GridView';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ShareIcon from '@mui/icons-material/Share';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import {
   Box,
@@ -41,11 +42,13 @@ import {
 } from '@mui/material';
 
 import Loading from '@/components/Loading';
+import { useUser } from '@/hooks/useUser';
 import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
 import { ErrorDialog } from './ErrorDialog';
+import { ShareDialog } from './ShareDialog';
 
-type ListItemRecord = {
+export type ListItemRecord = {
   id: string;
   listId: string;
   name: string;
@@ -60,15 +63,36 @@ type ListItemRecord = {
   createdAt: string;
 };
 
-type ShoppingListRecord = {
+export type ShareLinkRecord = {
   id: string;
+  listId: string;
+  shareToken: string;
+  permissionType: number;
+  createdBy: string;
+  createdAt: string;
+  expiresAt: string | null;
+  isActive: boolean;
+};
+
+export type ListMemberRecord = {
+  id: string;
+  userId: string;
+  permissionType: number;
+  joinedAt: string;
+};
+
+export type ShoppingListRecord = {
+  id: string;
+  ownerId: string;
   name: string;
   updatedAt: string;
   createdAt: string;
   items: ListItemRecord[];
+  shareLinks: ShareLinkRecord[];
+  members: ListMemberRecord[];
 };
 
-type CategoryRecord = {
+export type CategoryRecord = {
   id: string;
   name: string;
   icon?: string | null;
@@ -92,6 +116,7 @@ function ListDetailsPage() {
   const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { userId, loading: userLoading } = useUser();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -133,6 +158,7 @@ function ListDetailsPage() {
   const [isListEditOpen, setIsListEditOpen] = useState(false);
   const [isListDeleteOpen, setIsListDeleteOpen] = useState(false);
   const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const [listForm, setListForm] = useState<ListFormState>({ name: '' });
 
   const selectedItem = useMemo(
@@ -528,14 +554,23 @@ function ListDetailsPage() {
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => {
             e.stopPropagation();
-            if (toggleInFlightId === item.id) return;
+            if (toggleInFlightId === item.id || !canEdit) return;
             void toggleItemChecked(item, e.target.checked);
           }}
-          disabled={toggleInFlightId === item.id}
+          disabled={toggleInFlightId === item.id || !canEdit}
         />
       </Stack>
     );
   };
+
+  const canEdit = useMemo(() => {
+    if (!list || !userId) return false;
+    const currentUserId = userId.toLowerCase();
+    const ownerId = list.ownerId.toLowerCase();
+    if (ownerId === currentUserId) return true;
+    const member = list.members.find((m) => m.userId.toLowerCase() === currentUserId);
+    return member?.permissionType === 1; // 1 = Write
+  }, [list, userId]);
 
   return (
     <Container sx={{ py: 3 }}>
@@ -554,14 +589,21 @@ function ListDetailsPage() {
               </IconButton>
             </span>
           </Tooltip>
+          <Tooltip title={t('listDetailsPage.share')}>
+            <span>
+              <IconButton onClick={() => setIsShareOpen(true)} disabled={loading || !list}>
+                <ShareIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
           <Tooltip title={t('listDetailsPage.editList')}>
             <span>
-              <IconButton onClick={openListEdit} disabled={loading || !list}>
+              <IconButton onClick={openListEdit} disabled={loading || !list || !canEdit}>
                 <EditIcon />
               </IconButton>
             </span>
           </Tooltip>
-          {isDesktop && (
+          {isDesktop && canEdit && (
             <Button
               startIcon={<AddIcon />}
               variant="contained"
@@ -574,7 +616,7 @@ function ListDetailsPage() {
         </Stack>
       </Stack>
 
-      {loading && <Loading />}
+      {(loading || userLoading) && <Loading />}
 
       {error && (
         <Typography color="error" mb={2}>
@@ -620,7 +662,7 @@ function ListDetailsPage() {
           }
         />
 
-        {checkedItems.length > 0 && (
+        {checkedItems.length > 0 && canEdit && (
           <>
             <Button
               startIcon={<CheckBoxOutlineBlankIcon />}
@@ -666,9 +708,9 @@ function ListDetailsPage() {
                   key={item.id}
                   divider
                   secondaryAction={renderItemRight(item)}
-                  onClick={() => openEditDialog(item.id)}
+                  onClick={() => canEdit && openEditDialog(item.id)}
                   sx={{
-                    cursor: 'pointer',
+                    cursor: canEdit ? 'pointer' : 'default',
                     opacity: item.isChecked ? 0.6 : 1,
                     alignItems: { xs: 'flex-start', sm: 'center' },
                     py: { xs: 1.5, sm: 1 },
@@ -742,7 +784,7 @@ function ListDetailsPage() {
         )}
       </List>
 
-      {!isDesktop && (
+      {!isDesktop && canEdit && (
         <Fab
           color="primary"
           aria-label="add item"
@@ -1025,6 +1067,15 @@ function ListDetailsPage() {
       </Dialog>
 
       <ErrorDialog error={error} onClose={() => setError(null)} title={t('common.error')} />
+
+      {list && (
+        <ShareDialog
+          open={isShareOpen}
+          onClose={() => setIsShareOpen(false)}
+          list={list}
+          onUpdate={loadList}
+        />
+      )}
     </Container>
   );
 }

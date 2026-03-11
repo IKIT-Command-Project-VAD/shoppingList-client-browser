@@ -29,11 +29,13 @@ import {
 } from '@mui/material';
 
 import Loading from '@/components/Loading';
+import { useUser } from '@/hooks/useUser';
 import { ErrorDialog } from '@/pages/ListDetailsPage/ErrorDialog';
 import { fetchWithLocale } from '@/utils/fetchWithLocale';
 
 type ShoppingListRecord = {
   id: string;
+  ownerId: string;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -47,6 +49,7 @@ type ListFormState = {
 
 function ListsPage() {
   const { t } = useTranslation();
+  const { userId } = useUser();
   const [lists, setLists] = useState<ShoppingListRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -246,25 +249,36 @@ function ListsPage() {
                     >
                       {t('listsPage.updated')}: {new Date(list.updatedAt).toLocaleString()}
                     </Typography>
+                    {userId && list.ownerId.toLowerCase() !== userId.toLowerCase() && (
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        sx={{ fontSize: '0.7rem', mt: 0.5, display: 'block' }}
+                      >
+                        {t('listsPage.sharedBy') || 'Shared by'}: {list.ownerId}
+                      </Typography>
+                    )}
                   </CardContent>
                 </CardActionArea>
-                <Tooltip title={t('listsPage.edit')}>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openEdit(list.id);
-                    }}
-                    sx={{
-                      position: 'absolute',
-                      top: { xs: 4, sm: 8 },
-                      right: { xs: 4, sm: 8 },
-                    }}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
+                {userId && list.ownerId.toLowerCase() === userId.toLowerCase() && (
+                  <Tooltip title={t('listsPage.edit')}>
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEdit(list.id);
+                      }}
+                      sx={{
+                        position: 'absolute',
+                        top: { xs: 4, sm: 8 },
+                        right: { xs: 4, sm: 8 },
+                      }}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                )}
               </Box>
             </Card>
           </Grid>

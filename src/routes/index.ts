@@ -26,6 +26,11 @@ const routes: Routes = [
     protected: true,
   },
   {
+    component: asyncComponentLoader(() => import('@/pages/JoinPage')),
+    path: '/join/:token',
+    protected: true,
+  },
+  {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
   },

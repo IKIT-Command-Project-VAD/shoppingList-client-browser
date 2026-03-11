@@ -26,6 +26,7 @@
     "close": "Закрыть",
     "unknownError": "Неизвестная ошибка",
     "unknownListError": "Неизвестная ошибка загрузки списков",
+    "sharedBy": "Список пользователя",
     "errors": {
       "loadingLists": "Ошибка загрузки списков: {{status}}",
       "unknownLists": "Неизвестная ошибка загрузки списков"
@@ -83,8 +84,22 @@
       "savingList": "Ошибка сохранения списка: {{status}}",
       "deletingList": "Ошибка удаления списка: {{status}}",
       "uncheckingItems": "Ошибка разотмечания элементов: {{status}}",
-      "deletingItems": "Ошибка удаления элементов: {{status}}"
-    }
+      "deletingItems": "Ошибка удаления элементов: {{status}}",
+      "creatingShareLink": "Ошибка создания ссылки: {{status}}",
+      "loadingShareLinks": "Ошибка загрузки ссылок: {{status}}"
+    },
+    "share": "Поделиться",
+    "members": "Участники",
+    "shareLinks": "Ссылки для доступа",
+    "createShareLink": "Создать ссылку",
+    "permission": "Доступ",
+    "readOnly": "Только чтение",
+    "readWrite": "Чтение и запись",
+    "expiresAt": "Истекает (необязательно)",
+    "noShareLinks": "Ссылок пока нет. Создайте одну, чтобы пригласить других.",
+    "copyLink": "Копировать ссылку",
+    "linkCopied": "Ссылка скопирована в буфер обмена",
+    "inviteOthers": "Пригласить других в этот список"
   },
   "accountPage": {
     "title": "Аккаунт",
