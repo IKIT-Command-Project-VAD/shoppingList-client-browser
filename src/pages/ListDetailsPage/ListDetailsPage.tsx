@@ -41,6 +41,8 @@ import {
   useTheme,
 } from '@mui/material';
 
+import { HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
+
 import Loading from '@/components/Loading';
 import { useUser } from '@/hooks/useUser';
 import { fetchWithLocale } from '@/utils/fetchWithLocale';
@@ -218,6 +220,64 @@ function ListDetailsPage() {
   useEffect(() => {
     void loadList();
   }, [loadList]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    let isMounted = true;
+    const connection = new HubConnectionBuilder()
+      .withUrl('/hubs/lists', {
+        withCredentials: true,
+      })
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.None)
+      .build();
+
+    connection.on('ListChanged', async (message: { listId?: string }) => {
+      if (!isMounted) return;
+      if (!message?.listId) return;
+      if (message.listId.toLowerCase() !== id.toLowerCase()) return;
+      await loadList();
+    });
+
+    const start = async () => {
+      try {
+        await connection.start();
+        if (!isMounted) {
+          if (connection.state !== HubConnectionState.Disconnected) {
+            await connection.stop();
+          }
+          return;
+        }
+        await connection.invoke('JoinListGroup', id);
+      } catch {
+        // Realtime is best-effort. Manual refresh still works.
+      }
+    };
+
+    void start();
+
+    return () => {
+      isMounted = false;
+      connection.off('ListChanged');
+      void (async () => {
+        try {
+          if (connection.state === HubConnectionState.Connected) {
+            await connection.invoke('LeaveListGroup', id);
+          }
+        } catch {
+          // no-op
+        }
+        try {
+          if (connection.state !== HubConnectionState.Disconnected) {
+            await connection.stop();
+          }
+        } catch {
+          // no-op
+        }
+      })();
+    };
+  }, [id, loadList]);
 
   const toggleItemChecked = useCallback(
     async (item: ListItemRecord, nextChecked: boolean) => {
