@@ -8,10 +8,10 @@ interface UnauthorizedProps {
 }
 
 const Unauthorized: FC<UnauthorizedProps> = ({ message }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const handleLogin = () => {
     // через gateway → попадём в Keycloak
-    window.location.href = '/bff/login';
+    window.location.href = `/bff/login?ui_locales=${i18n.language}`;
   };
 
   return (

@@ -13,7 +13,7 @@ const loader = {
 };
 
 const defaultMetaTags = {
-  image: '/cover.png',
+  image: '/favicon.svg',
   description: 'Удобное приложение для составления и управления списками покупок',
 };
 

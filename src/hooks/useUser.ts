@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 type UserInfo = {
   name: string;
+  fullName?: string;
   claims: { type: string; value: string }[];
 };
 

@@ -1,5 +1,4 @@
 {
-  "welcome": "Welcome",
   "account": "Account",
   "lists": "Lists",
   "home": "Home",
@@ -118,7 +117,10 @@
     "title": "Account",
     "hello": "Hello, {{name}}",
     "signIn": "Sign in",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "changePassword": "Change password",
+    "updateProfile": "Update profile",
+    "username": "Username"
   },
   "unauthorized": {
     "notAuthorized": "Not authorized",
@@ -127,8 +129,6 @@
     "pleaseAuthorize": "Please, press the button below to authorize"
   },
   "header": {
-    "hotKeys": "Hot keys",
-    "sourceCode": "It's open source",
     "switchTheme": "Switch theme"
   },
   "hotKeys": {

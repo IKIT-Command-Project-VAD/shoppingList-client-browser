@@ -9,7 +9,6 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng: 'en', // default language
     fallbackLng: 'en', // fallback language if the detected language is not in resources
     debug: false, // set to true to see logs in console
 

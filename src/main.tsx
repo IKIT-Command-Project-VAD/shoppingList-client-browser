@@ -1,5 +1,4 @@
 import '@/i18n';
-import welcome from '@/utils/welcome';
 
 // Initialize i18next
 
@@ -16,6 +15,3 @@ import './index.css';
 Promise.all([import('@/root'), import('@/App')]).then(([{ default: render }, { default: App }]) => {
   render(App);
 });
-
-// welcome message for users in the console
-welcome();

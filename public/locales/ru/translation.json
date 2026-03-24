@@ -1,5 +1,4 @@
 {
-  "welcome": "Добро пожаловать",
   "account": "Аккаунт",
   "lists": "Списки",
   "home": "Главная",
@@ -105,7 +104,10 @@
     "title": "Аккаунт",
     "hello": "Привет, {{name}}",
     "signIn": "Войти",
-    "signOut": "Выйти"
+    "signOut": "Выйти",
+    "changePassword": "Сменить пароль",
+    "updateProfile": "Обновить профиль",
+    "username": "Имя пользователя"
   },
   "unauthorized": {
     "notAuthorized": "Не авторизован",
@@ -114,8 +116,6 @@
     "pleaseAuthorize": "Пожалуйста, используйте кнопку ниже, чтобы авторизоваться"
   },
   "header": {
-    "hotKeys": "Горячие клавиши",
-    "sourceCode": "Это open source",
     "switchTheme": "Переключить тему"
   },
   "hotKeys": {
