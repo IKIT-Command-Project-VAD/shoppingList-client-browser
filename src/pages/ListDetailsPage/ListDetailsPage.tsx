@@ -205,6 +205,17 @@ function ListDetailsPage() {
         method: 'GET',
         credentials: 'include',
       });
+      if (response.status === 404) {
+        navigate('/', {
+          replace: true,
+          state: {
+            infoMessage: t('listDetailsPage.errors.listDeletedOrUnavailable', {
+              defaultValue: 'List was deleted or is no longer available.',
+            }),
+          },
+        });
+        return;
+      }
       if (!response.ok)
         throw new Error(t('listDetailsPage.errors.loadingList', { status: response.status }));
       const data = (await response.json()) as ShoppingListRecord;
@@ -215,7 +226,7 @@ function ListDetailsPage() {
     } finally {
       setLoading(false);
     }
-  }, [id, t]);
+  }, [id, navigate, t]);
 
   useEffect(() => {
     void loadList();
@@ -233,10 +244,21 @@ function ListDetailsPage() {
       .configureLogging(LogLevel.None)
       .build();
 
-    connection.on('ListChanged', async (message: { listId?: string }) => {
+    connection.on('ListChanged', async (message: { listId?: string; reason?: string }) => {
       if (!isMounted) return;
       if (!message?.listId) return;
       if (message.listId.toLowerCase() !== id.toLowerCase()) return;
+      if (message.reason === 'list.deleted') {
+        navigate('/', {
+          replace: true,
+          state: {
+            infoMessage: t('listDetailsPage.errors.listDeletedOrUnavailable', {
+              defaultValue: 'List was deleted or is no longer available.',
+            }),
+          },
+        });
+        return;
+      }
       await loadList();
     });
 
@@ -277,7 +299,7 @@ function ListDetailsPage() {
         }
       })();
     };
-  }, [id, loadList]);
+  }, [id, loadList, navigate, t]);
 
   const toggleItemChecked = useCallback(
     async (item: ListItemRecord, nextChecked: boolean) => {
@@ -777,6 +799,7 @@ function ListDetailsPage() {
                   }}
                 >
                   <ListItemText
+                    secondaryTypographyProps={{ component: 'span' }}
                     primary={
                       <Typography
                         variant="subtitle1"
@@ -792,12 +815,14 @@ function ListDetailsPage() {
                     }
                     secondary={
                       <Stack
+                        component="span"
                         direction={{ xs: 'column', sm: 'row' }}
                         spacing={{ xs: 0.5, sm: 1 }}
                         alignItems={{ xs: 'flex-start', sm: 'center' }}
                         sx={{ mt: { xs: 0.5, sm: 0 } }}
                       >
                         <Typography
+                          component="span"
                           variant="body2"
                           color="text.secondary"
                           sx={{
@@ -810,6 +835,7 @@ function ListDetailsPage() {
                         </Typography>
                         {item.category && !isGrouped && (
                           <Typography
+                            component="span"
                             variant="caption"
                             sx={{
                               bgcolor: 'action.selected',

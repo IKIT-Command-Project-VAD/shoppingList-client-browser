@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -65,6 +65,7 @@ function ListsPage() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const navigate = useNavigate();
+  const location = useLocation();
 
   const selectedList = useMemo(
     () => lists.find((l) => l.id === selectedListId) ?? null,
@@ -93,6 +94,14 @@ function ListsPage() {
   useEffect(() => {
     void loadLists();
   }, [loadLists]);
+
+  useEffect(() => {
+    const state = location.state as { infoMessage?: string } | null;
+    if (!state?.infoMessage) return;
+
+    setError(state.infoMessage);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate]);
 
   const openCreate = () => {
     setCreateForm({ name: '' });
